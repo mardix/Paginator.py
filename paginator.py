@@ -2,15 +2,8 @@
 Paginator
 """
 
-__NAME__ = "Paginator"
-__version__ = "0.1.1"
-__license__ = "MIT"
-__author__ = "Mardix"
-__copyright__ = "(c) 2015 Mardix"
-
 from math import ceil
 from six import string_types
-
 
 class Paginator(object):
     PER_PAGE = 10

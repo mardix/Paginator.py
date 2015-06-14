@@ -4,7 +4,7 @@
         {% set endpoint = request.endpoint %}
     {% endif %}
     {% if "page" in kwargs %}
-        {% do kwargs.pop("page") %}
+        {% set _ = kwargs.pop("page") %}
     {% endif %}
     <nav>
         <ul class="{{ class_ }}">
