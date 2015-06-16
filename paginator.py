@@ -4,6 +4,7 @@ Paginator
 
 from math import ceil
 from six import string_types
+from six.moves import range
 
 class Paginator(object):
     PER_PAGE = 10
@@ -120,7 +121,7 @@ class Paginator(object):
 
     def iter_pages(self, left_edge=2, left_current=3, right_current=4, right_edge=2):
         last = 0
-        for num in xrange(1, self.total_pages + 1):
+        for num in range(1, self.total_pages + 1):
             is_active_page = (
                 num <= left_edge
                 or (
