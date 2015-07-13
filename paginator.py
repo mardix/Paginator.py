@@ -114,6 +114,9 @@ class Paginator(object):
         for i in self.items:
             yield i
 
+    def __len__(self):
+        return self.total_pages
+
     @property
     def pages(self):
         """Iterates over the page numbers in the pagination."""
