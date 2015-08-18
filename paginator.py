@@ -8,7 +8,6 @@ from six.moves import range
 
 class Paginator(object):
     PER_PAGE = 10
-    showing = 0
     total_pages = 0
     total_items = 0
 
@@ -46,17 +45,8 @@ class Paginator(object):
             page = 1
         self.page = self._sanitize_page_number(page)
 
-        if self.total_items > self.per_page * self.page:
-            showing = self.per_page
-        else:
-            showing = total - per_page * (page - 1)
-        self.showing = showing
-
         self.padding = padding
 
-        if self.showing == 0 and on_error:
-            if isinstance(on_error, Exception):
-                raise on_error
 
     def _sanitize_page_number(self, page):
         if page == 'last':

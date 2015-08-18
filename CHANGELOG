@@ -1,5 +1,8 @@
+- 0.3.0
+    - Remove the showing property
+
 - 0.2.1
-    - Use Sx range for py2-3 compatibility
+    - Use Six range for py2-3 compatibility
 
 - Version 0.2.0
     - Bump version

@@ -6,7 +6,7 @@ Paginator
 from setuptools import setup, find_packages
 
 __NAME__ = "Paginator"
-__version__ = "0.2.2"
+__version__ = "0.3.0"
 __license__ = "MIT"
 __author__ = "Mardix"
 __copyright__ = "(c) 2015 Mardix"
