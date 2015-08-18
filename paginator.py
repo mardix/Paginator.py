@@ -98,7 +98,10 @@ class Paginator(object):
 
         if hasattr(self.query, 'limit') and hasattr(self.query, 'offset'):
             return self.query.limit(limit).offset(offset)
-        return self.query[offset:offset + limit]
+        elif isinstance(self.query, list):
+            return self.query[offset:offset + limit]
+        else:
+            return self.query
 
     def __iter__(self):
         for i in self.items:
