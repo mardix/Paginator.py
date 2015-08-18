@@ -1,3 +1,7 @@
+- 0.3.5
+    - Add a function callback in the constructor, for when the items are being
+    iterated over
+
 - 0.3.1
     - If a generator is passed as query, __iter__ will iterate over the generator
 

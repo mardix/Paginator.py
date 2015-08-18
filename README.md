@@ -19,48 +19,104 @@ Paginator for SQLAlchemy query object, list or iterable
     for item in items:
         pass
     
+    
+
+### Simple Usage with an iterable and callback
+
+    from paginator import Paginator
+
+    items = range(1, 1000)
+    
+    def my_callback(item):
+        # do something
+        return item
+        
+    items = Paginator(items, page=1, per_page=10, callback=my_callback)
+    
+    for item in items:
+        pass
+        
+        
 ### Jinja macro
  
  
-    {% macro pagination(paginator, endpoint=None, class_='pagination') %}
+    {#: PAGINATION -------------------------------------------------------------- #}
+    {#
+         :paginator: iterator
+         :endpoint:
+         :prev: Text for previous button
+         :next: Text for Next button
+         :class_: A class name for pagination if customed. If you are extending the class
+                 best to add the original class and your custom class
+                 ie: 'pagination my_custom_pagination' or 'pager my_custom_page'
+         :pager: If true it will show a pager instead of numbered pagination
+    
+    #}
+    {% macro pagination(paginator, endpoint=None, prev="", next="", class_=None, pager=False) %}
         {% if not endpoint %}
             {% set endpoint = request.endpoint %}
         {% endif %}
         {% if "page" in kwargs %}
-            {% do kwargs.pop("page") %}
+            {% set _ = kwargs.pop("page") %}
         {% endif %}
+    
+        {%  if not class_ %}
+            {% set class_ = "pagination" %}
+            {% if pager %}
+                {% set class_ = "pager" %}
+            {% endif %}
+        {% endif %}
+    
+        {% set _prev_btn = "<span aria-hidden='true'>&larr;</span> %s" % prev %}
+        {% set _next_btn = "<span aria-hidden='true'>&rarr;</span> %s" % next %}
+    
         <nav>
-            <ul class="{{ class_ }}">
+          <ul class="{{ class_ }}">
+    
               {%- if paginator.has_prev %}
-                <li><a href="{{ url_for(endpoint, page=paginator.prev_page_number, **kwargs) }}"
-                 rel="me prev"><span aria-hidden="true">&laquo;</span></a></li>
+                <li class="previous">
+                    <a href="{{ url_for(endpoint, page=paginator.prev_page_number, **kwargs) }}">
+                         {{ _prev_btn | safe }}</a>
+                </li>
               {% else %}
-                <li class="disabled"><span><span aria-hidden="true">&laquo;</span></span></li>
+                <li class="disabled previous">
+                    <a href="#">{{ _prev_btn | safe }}</a>
+                </li>
               {%- endif %}
     
-              {%- for page in paginator.pages %}
-                {% if page %}
-                  {% if page != paginator.page %}
-                    <li><a href="{{ url_for(endpoint, page=page, **kwargs) }}"
-                     rel="me">{{ page }}</a></li>
-                  {% else %}
-                    <li class="active"><span>{{ page }}</span></li>
-                  {% endif %}
-                {% else %}
-                  <li><span class=ellipsis>…</span></li>
+    
+                {% if not pager %}
+    
+                      {%- for page in paginator.iter_pages() %}
+                        {% if page %}
+                          {% if page != paginator.page %}
+                            <li><a href="{{ url_for(endpoint, page=page, **kwargs) }}"
+                             rel="me">{{ page }}</a></li>
+                          {% else %}
+                            <li class="active"><span>{{ page }}</span></li>
+                          {% endif %}
+                        {% else %}
+                          <li><span class=ellipsis>…</span></li>
+                        {% endif %}
+                      {%- endfor %}
+    
                 {% endif %}
-              {%- endfor %}
+    
     
               {%- if paginator.has_next %}
-                <li><a href="{{ url_for(endpoint, page=paginator.next_page_number, **kwargs) }}"
-                 rel="me next">»</a></li>
+                <li class="next">
+                    <a href="{{ url_for(endpoint, page=paginator.next_page_number, **kwargs) }}">
+                        {{ _next_btn | safe }}</a>
+                </li>
               {% else %}
-                <li class="disabled"><span aria-hidden="true">&raquo;</span></li>
+                <li class="disabled next">
+                    <a href="#">{{ _next_btn | safe }}</a>
+                </li>
               {%- endif %}
-            </ul>
+          </ul>
         </nav>
+    
     {% endmacro %}
-
     
 ### DOCUMENTATION IN CONSTRUCTION
 

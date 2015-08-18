@@ -10,9 +10,10 @@ class Paginator(object):
     PER_PAGE = 10
     total_pages = 0
     total_items = 0
+    callback = None
 
     def __init__(self, query, page=1, per_page=PER_PAGE, total=None,
-                 padding=0, on_error=None):
+                 padding=0, callback=None):
         """
 
         :param query: Iterable to paginate. Can be a query object, list or any iterables
@@ -20,13 +21,12 @@ class Paginator(object):
         :param per_page: max number of items per page
         :param total: Max number of items. If not provided, it will use the query to count
         :param padding: Number of elements of the next page to show
-        :param on_error: Used if the page number is too big for the total number
-        of items. Raised if it's an exception, called otherwise.
-        ``None`` by default.
+        :param callback: a function to callback on each item being iterated.
         :return:
         """
 
         self.query = query
+        self.callback = callback
 
         if not isinstance(per_page, int) or per_page < 1:
             raise TypeError('`per_page` must be a positive integer')
@@ -46,7 +46,6 @@ class Paginator(object):
         self.page = self._sanitize_page_number(page)
 
         self.padding = padding
-
 
     def _sanitize_page_number(self, page):
         if page == 'last':
@@ -105,7 +104,7 @@ class Paginator(object):
 
     def __iter__(self):
         for i in self.items:
-            yield i
+            yield self.callback(i) if self.callback else i
 
     def __len__(self):
         return self.total_pages
