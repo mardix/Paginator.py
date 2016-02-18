@@ -7,7 +7,7 @@ __all__ = [
 ]
 
 __title__ = "Paginator"
-__version__ = "0.3.5"
+__version__ = "0.4.0"
 __summary__ = "Paginator for SQLAlchemy query object, list or iterable"
 __uri__ = "https://github.com/mardix/Paginator.py"
 __author__ = "Mardix"
