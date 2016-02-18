@@ -35,7 +35,20 @@ Paginator for SQLAlchemy query object, list or iterable
     
     for item in items:
         pass
+       
+
+#### API
+
+**Paginator(query, page=1, per_page=10, total=None, padding=0, callback=None, static_query=False)**
         
+        :param query: Iterable to paginate. Can be a query object, list or any iterables
+        :param page: current page
+        :param per_page: max number of items per page
+        :param total: Max number of items. If not provided, it will use the query to count
+        :param padding: Number of elements of the next page to show
+        :param callback: a function to callback on each item being iterated.
+        :param static_query: bool - When True it will return the query as is, without slicing/limit. Usally when using the paginator to just create the pagination.
+        :return:
         
 ### Jinja macro
  

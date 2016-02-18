@@ -4,20 +4,16 @@ Paginator
 """
 
 from setuptools import setup, find_packages
+from __about__ import *
 
-__NAME__ = "Paginator"
-__version__ = "0.3.5"
-__license__ = "MIT"
-__author__ = "Mardix"
-__copyright__ = "(c) 2015 Mardix"
 
 setup(
-    name=__NAME__,
+    name=__title____,
     version=__version__,
     license=__license__,
     author=__author__,
-    author_email='mardix@pylot.io',
-    description="Paginator for SQLAlchemy query object, list or iterable ",
+    author_email=__email__,
+    description=__summary__,
     long_description=__doc__,
     url='http://github.com/mardix/paginator.py/',
     download_url='http://github.com/mardix/paginator.py/tarball/master',

@@ -13,20 +13,21 @@ class Paginator(object):
     callback = None
 
     def __init__(self, query, page=1, per_page=PER_PAGE, total=None,
-                 padding=0, callback=None):
+                 padding=0, callback=None, static_query=False):
         """
-
         :param query: Iterable to paginate. Can be a query object, list or any iterables
         :param page: current page
         :param per_page: max number of items per page
         :param total: Max number of items. If not provided, it will use the query to count
         :param padding: Number of elements of the next page to show
         :param callback: a function to callback on each item being iterated.
+        :param static_query: bool - When True it will return the query as is, without slicing/limit. Usally when using the paginator to just create the pagination.
         :return:
         """
 
         self.query = query
         self.callback = callback
+        self.static_query = static_query
 
         if not isinstance(per_page, int) or per_page < 1:
             raise TypeError('`per_page` must be a positive integer')
@@ -89,6 +90,9 @@ class Paginator(object):
 
     @property
     def items(self):
+        if self.static_query:
+            return self.query
+
         offset = (self.page - 1) * self.per_page
         offset = max(offset - self.padding, 0)
         limit = self.per_page + self.padding

@@ -1,3 +1,6 @@
+- 0.4.0
+    - Added param 'static_query': When True it will return the query as is, without slicing/limit. Usally when using the paginator to just create the pagination
+
 - 0.3.5
     - Add a function callback in the constructor, for when the items are being
     iterated over
