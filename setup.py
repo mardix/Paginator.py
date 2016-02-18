@@ -8,7 +8,7 @@ from __about__ import *
 
 
 setup(
-    name=__title____,
+    name=__title__,
     version=__version__,
     license=__license__,
     author=__author__,
