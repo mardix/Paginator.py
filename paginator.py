@@ -13,7 +13,8 @@ class Paginator(object):
     callback = None
 
     def __init__(self, query, page=1, per_page=PER_PAGE, total=None,
-                 padding=0, callback=None, static_query=False):
+                 padding=0, callback=None, static_query=False,
+                 left_edge=2, left_current=3, right_current=4, right_edge=2):
         """
         :param query: Iterable to paginate. Can be a query object, list or any iterables
         :param page: current page
@@ -22,12 +23,20 @@ class Paginator(object):
         :param padding: Number of elements of the next page to show
         :param callback: a function to callback on each item being iterated.
         :param static_query: bool - When True it will return the query as is, without slicing/limit. Usally when using the paginator to just create the pagination.
-        :return:
+        # To customize the pagination
+        :param left_edge:
+        :param left_current:
+        :param right_current:
+        :param right_edge:
         """
 
         self.query = query
         self.callback = callback
         self.static_query = static_query
+        self.left_edge = left_edge
+        self.left_current = left_current
+        self.right_edge = right_edge
+        self.right_current = right_current
 
         if not isinstance(per_page, int) or per_page < 1:
             raise TypeError('`per_page` must be a positive integer')
@@ -118,7 +127,12 @@ class Paginator(object):
         """Iterates over the page numbers in the pagination."""
         return self.iter_pages()
 
-    def iter_pages(self, left_edge=2, left_current=3, right_current=4, right_edge=2):
+    def iter_pages(self, left_edge=None, left_current=None, right_current=None, right_edge=None):
+        left_edge = left_edge or self.left_edge
+        left_current = left_current or self.left_current
+        right_edge = right_edge or self.right_edge
+        right_current = right_current or self.right_current
+
         last = 0
         for num in range(1, self.total_pages + 1):
             is_active_page = (
